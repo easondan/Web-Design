@@ -1,0 +1,158 @@
+
+
+<!DOCTYPE html>
+<!-- This is based on DillingerLee's great template here:
+https://github.com/Team-Code/KA_Offline -->
+<html> 
+ <head>
+    <title>Processing.JS inside Webpages: Template</title> 
+</head>
+ <body>
+    <p align="center"> 
+	<!--This draws the Canvas on the webpage -->
+      <canvas id="mycanvas"></canvas> 
+    </p>
+ </body>
+ 
+ <!-- Run all the JavaScript stuff -->
+ <!-- Include the processing.js library -->
+ <!-- See https://khanacademy.zendesk.com/hc/en-us/articles/202260404-What-parts-of-ProcessingJS-does-Khan-Academy-support- for differences -->
+ <script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script> 
+ 
+ <script>
+    var sketchProc = function(processingInstance) {
+     with (processingInstance) {
+        size(400, 400); 
+        frameRate(30);
+        //Eason Liang
+//Dec 26 2017
+//This is a game of PaddleBall
+
+//Turns Off Outlines for Shapes
+noStroke();
+//Variables
+//framerate
+frameRate(60);
+//The Paddle Width
+var pWidth = 100;
+//the speed of the ball
+var startSpeedX = 10;
+var startSpeedY = -8;
+var speedX = startSpeedX;
+var speedY = startSpeedY;
+//Using a boolean variable for movement
+var movement = false;
+//Location of the ball
+var ballX;
+var ballY;
+//Intializes a  counter
+var counter = 0;
+var words="Hello This is a game Of PaddleBall Click To Start";
+var words2 = "Hello";
+//Using the draw Function for animation 
+var draw = function() {
+    //background color 
+     background(8, 8, 8);
+     //Coloring the paddle
+      fill(247, 15, 69);
+      //Making the Paddle
+        rect(mouseX - pWidth/2,350, pWidth,10);
+     //If there is movement ball starts moving 
+      if(movement){
+          text("",30,40);
+          counter = counter + 1;
+          ballX = ballX + speedX;
+          ballY= ballY + speedY;
+      }
+      //If There is no movment the ball follows where the paddle and mouse is located 
+      else {
+        
+            textSize(12);
+           text(words,62,150);
+           text("Use the Mouse To Move the Paddle Left and Right",59,170);
+           text("Score Will Be accumlated While Your playing",69,190);
+           text("Good Luck!",155,210);
+           text("Score:"+counter,7,19);
+          ballX = mouseX;
+          ballY = 340;
+      }
+      //adding color to the ball 
+     fill(0, 255, 77);
+     //using ellipse to create a circle for the ball 
+    ellipse(ballX, ballY, 20, 20);
+    //if the ball hits the the top part of the wall  
+     if(ballY <= 10){
+         //the ball move back down in the opposite direction 
+      
+        speedY= -speedY;
+    }    
+    
+    //if the ball hits the left wall 
+    if(ballX <= 10){
+        //the ball will bounce back in the opposite direction 
+       
+          speedX = -speedX;
+    }
+    
+    //if the ball hits the right wall 
+    if(ballX >= 390){
+        //the ball will bounce back into the opposite direction 
+      
+        speedX = -speedX;
+    }
+    
+    //If the ball hits the 
+  if(ballY>=340 && ballY<346 && ballX >= mouseX - pWidth/2 && ballX <= mouseX+pWidth){
+      //Makes the ball bounce back 
+  speedY=-speedY;
+  //Everything the ball hits the paddle the paddle will shrink 
+pWidth-=20;
+//if the paddle width goes down to a length of 60 units
+if(pWidth <= 60){
+   
+    //The paddle width will stay at 60 units 
+    pWidth = 60;
+}
+
+}
+//if the ball hits 450 units down 
+if(ballY>=450){
+    
+    //Stops the movement of the ball 
+    
+    movement = false;
+ 
+ }
+
+    };  
+
+
+//Using the mouse clicked function 
+var mouseClicked = function(){
+    //resets the paddle width when clicked 
+       pWidth=125; 
+       counter = 0;
+    if(!movement){
+        //Resets the placement and speed of the ball 
+        speedX= startSpeedX;
+        speedY= startSpeedY;    
+        //starts the ball making it move again 
+        movement = true;
+
+    }   
+    
+};
+
+
+
+
+      
+    }};
+
+    // Get the canvas that Processing-js will use
+    var canvas = document.getElementById("mycanvas"); 
+    // Pass the function sketchProc (defined in myCode.js) to Processing's constructor.
+    var processingInstance = new Processing(canvas, sketchProc); 
+ </script>
+
+</html>
